@@ -10,6 +10,4 @@ public class AvatarNotFoundExeption extends RuntimeException{
     return id;
   }
 
-
-  }
 }
