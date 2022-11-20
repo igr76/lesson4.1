@@ -63,11 +63,12 @@ public class StudentService {
         LOG.debug("Method getStudentsByAgeAvery was invoked");
         return  studentRepository.getStudentsByAgeAvery();
     }
-    public List<Student> getStudentsLastFive() {
+    public List<Student> getStudentsLastFive()     {
         LOG.debug("Method getStudentsLastFive was invoked");
-        int lastFive = studentRepository.getStudentsQuantity() - 5;
-        PageRequest pageRequest = PageRequest.of(lastFive,5);
-        return  studentRepository.findAll(pageRequest).getContent();
+        // int lastFive = studentRepository.getStudentsQuantity() - 5;
+        // PageRequest pageRequest = PageRequest.of(lastFive,5);
+        // return  studentRepository.findAll(pageRequest).getContent();
+        studentRepository.desc();
+        return studentRepository.getStudentsLastFive();
     }
-
 }
