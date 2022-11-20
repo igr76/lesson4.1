@@ -3,16 +3,19 @@ package org.example.service;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.example.model.Faculty;
 import org.example.model.Student;
 import org.example.repository.StudentRepository;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
 public class StudentService {
    private final StudentRepository studentRepository;
+    Logger logger = LoggerFactory.getLogger(StudentService.class);
 
     public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;

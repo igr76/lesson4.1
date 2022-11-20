@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.Min;
 import java.io.IOException;
 import java.util.List;
 
@@ -51,5 +52,11 @@ public class AvatarController {
                 .contentLength(pair.getFirst().length)
                 .contentType(MediaType.parseMediaType(pair.getSecond()))
                 .body(pair.getFirst());
+    }
+
+    @GetMapping
+    public List<Avatar> fingByPagination(@RequestParam @Min(0) int page,
+                                         @RequestParam @Min(0) int size) {
+        return avatarService.fingByPagination(page, size);
     }
 }
