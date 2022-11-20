@@ -8,6 +8,8 @@ import org.example.model.Student;
 import org.example.record.AvatarRecord;
 import org.example.repository.AvatarRepository;
 import org.example.repository.StudentRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.util.Pair;
@@ -20,11 +22,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
+
 import java.util.stream.Collectors;
 
 
 @Service
 public class AvatarService {
+    private static final Logger LOG = LoggerFactory.getLogger(AvatarService.class);
+
 
     private final AvatarRepository avatarRepository;
     private final StudentRepository studentRepository;
@@ -42,6 +47,7 @@ public class AvatarService {
     }
 
     public AvatarRecord creat(MultipartFile avatar1, long studentId) throws IOException {
+        LOG.debug("Method creat was invoked");
         Student student = studentRepository.
                 findById(studentId).orElseThrow(() -> new StudentNotFoundExeption(studentId));
         byte[] data = avatar1.getBytes();
@@ -60,11 +66,19 @@ public class AvatarService {
     }
 
     public Pair<byte[], String> readFromFs(long id) throws IOException {
-        Avatar avatar = avatarRepository.findById(id).orElseThrow(() -> new AvatarNotFoundExeption(id));
+        LOG.debug("Method readFromFs was invoked");
+        Avatar avatar = avatarRepository.findById(id).orElseThrow(() -> {
+            LOG.error("Avatar with id = {} not found",id);
+            return new AvatarNotFoundExeption(id);
+        });
         return Pair.of(Files.readAllBytes(Paths.get(avatar.getFilePath())),avatar.getMediaTipe());
     }
     public Pair<byte[], String> readFromDb(long id) {
-        Avatar avatar = avatarRepository.findById(id).orElseThrow(() -> new AvatarNotFoundExeption(id));
+        LOG.debug("Method readFromDb was invoked");
+        Avatar avatar = avatarRepository.findById(id).orElseThrow(() -> {
+            LOG.error("Avatar with id = {} not found",id);
+            return new AvatarNotFoundExeption(id);
+        });
         return Pair.of(avatar.getData(),avatar.getMediaTipe());
     }
 
@@ -73,6 +87,7 @@ public class AvatarService {
     }
 
     public List<Avatar> fingByPagination(int page, int size) {
+        LOG.debug("Method fingByPagination was invoked");
         return avatarRepository.findAll(PageRequest.of(page, size)).get()
                 .collect(Collectors.toList());
     }
