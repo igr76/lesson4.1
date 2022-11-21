@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/student")
@@ -72,6 +73,16 @@ public class StudentController {
     @GetMapping("/{id}/faculty")
     public Faculty findFacultyByStudent(@PathVariable Long id) {
         return studentService.findFacultyByStudent(id);
+    }
+
+    @GetMapping("/findStudentNamrThisStartedThisA")
+    public Stream<String> findStudentNamrThisStartedThisA() {
+        return studentService.findStudentNamrThisStartedThisA();
+    }
+
+    @GetMapping("/findStudentAverageAge")
+    public double findStudentAverageAge() {
+        return studentService.findStudentAverageAge();
     }
 
 

@@ -1,6 +1,7 @@
 package org.example.service;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.stream.Collectors;
 
 import org.example.exeption.AvatarNotFoundExeption;
@@ -55,5 +56,12 @@ public class FacultyService {
         LOG.debug("Method findStudentByFaculty was invoked");
         return facultyRepository.findById(id).orElseThrow(() -> new
                 FacultyNotFoundExeption(id)).getStudents().stream().collect(Collectors.toList());
+    }
+
+    public String findTheLongestFacultyName() {
+        return facultyRepository.findAll().stream()
+                .map(Faculty::getName)
+                .max(Comparator.comparingInt(String::length))
+                .orElseThrow();
     }
 }

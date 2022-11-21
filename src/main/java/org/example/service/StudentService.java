@@ -3,7 +3,9 @@ package org.example.service;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Stream;
 
+import org.example.exeption.StudentNotFoundExeption;
 import org.example.model.Faculty;
 import org.example.model.Student;
 import org.example.repository.StudentRepository;
@@ -70,5 +72,20 @@ public class StudentService {
         // return  studentRepository.findAll(pageRequest).getContent();
         studentRepository.desc();
         return studentRepository.getStudentsLastFive();
+    }
+
+    public Stream<String> findStudentNamrThisStartedThisA() {
+        return studentRepository.findAll().stream()
+                .map(Student::getName)
+                .map(String::toUpperCase)
+                .filter(s -> s.startsWith("A"))
+                .sorted();
+    }
+
+    public double findStudentAverageAge() {
+        return studentRepository.findAll().stream()
+                .mapToDouble(Student::getAge)
+                .average()
+                .orElseThrow();
     }
 }
