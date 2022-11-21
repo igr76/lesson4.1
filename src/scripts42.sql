@@ -1,8 +1,8 @@
 ALTER TABLE students (
 
     AND CONSTRAINT unique_name UNIQUE (name),
-    age INTEGER CHECK ( age >=16 ),
-    name TEXT NOT NULL ,
+    ADD CHECK ( age >=16 ),
+    ALTER COLUMN name SET NOT NULL ,
     ALTER COLUMN age SET DEFAULT 20,
 
 )
